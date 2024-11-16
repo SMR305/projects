@@ -31,9 +31,18 @@ async def event_message(message):
     await bot.handle_commands(message)
 
 # Command: Responds with "Hello, {user}!" when "!hello" is typed in chat
-@bot.command(name='hello')
-async def hello(ctx):
+@bot.command(name='hello_merivel')
+async def hello_merivel(ctx):
     await ctx.send(f'Hello, {ctx.author.name}!')
+
+@bot.command(name='merivel_commands')
+async def merivel_commands(ctx):
+    commands_list = [
+        "!Hello_Merivel - Merivel says hello to you",
+    ]
+    response = "Available commands: " + "\n    ".join(commands_list)
+    
+    await ctx.send(response)
 
 # Run the bot
 bot.run()
