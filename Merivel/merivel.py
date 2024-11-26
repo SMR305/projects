@@ -32,7 +32,6 @@ async def event_ready():
 @bot.event()
 async def event_message(message):
     # Prevent the bot from responding to its own messages
-    print(message.content)
     if message.author.name.lower() == bot.nick.lower():
         return
 
@@ -50,6 +49,7 @@ async def event_message(message):
 async def hello_merivel(ctx):
     await ctx.send(f'Hello, {ctx.author.name}!')
 
+#Command: Responds with the list of available commands
 @bot.command(name='Merivel_Commands')
 async def merivel_commands(ctx):
     commands_list = [
