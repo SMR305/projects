@@ -50,15 +50,21 @@ async def hello_merivel(ctx):
     await ctx.send(f'Hello, {ctx.author.name}!')
 
 #Command: Responds with the list of available commands
-@bot.command(name='Merivel_Commands')
+@bot.command(name='Commands_Merivel')
 async def merivel_commands(ctx):
     commands_list = [
         "!Hello_Merivel - Merivel says hello to you",
-        "!Merivel_Commands - Gives you this list of commands",
+        "!Commands_Merivel - Gives you this list of commands",
     ]
     response = "Available commands: " + " | ".join(commands_list)
     
     await ctx.send(response)
+
+@bot.command(name='Quit_Merivel')
+async def merivel_quit(ctx):
+    if ctx.author.name == TWITCH_CHANNEL_NAME:
+        ctx.send("Bye Everyone!")
+        exit()
 
 # Run the bot
 if __name__ == "__main__":
