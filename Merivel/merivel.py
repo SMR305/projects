@@ -21,8 +21,8 @@ pygame.mixer.init()
 global start_time
 start_time = time.time()
 
-global downtime
-downtime = 90
+global down_time
+down_time = 90
 
 global cool
 cool = False
@@ -74,7 +74,7 @@ async def merivel_lurk(ctx):
 async def merivel_prank(ctx):
     global start_time
     global cool
-    if ((time.time() - start_time) < downtime) & cool:
+    if ((time.time() - start_time) < down_time) & cool:
         await ctx.send('Not so fast! You thought I was gonna let you spam this? Take a minute first!')
         return
     # Load and play the sound
@@ -110,23 +110,23 @@ async def merivel_quit(ctx):
         ctx.send("Bye Everyone!")
         exit()
 
-#Admin Command: Sets the downtime for the prank sound
+#Admin Command: Sets the down_time for the prank sound
 @bot.command(name='Set_Downtime')
 async def merivel_downtime(ctx):
-    global downtime
+    global down_time
     if ctx.author.name == TWITCH_CHANNEL_NAME:
         try:
-            downtime = int(ctx.message.content.split(' ')[1])
-            await ctx.send(f'New Cooldown {downtime} seconds.')
+            down_time = int(ctx.message.content.split(' ')[1])
+            await ctx.send(f'New Cooldown {down_time} seconds.')
         except (ValueError, IndexError):
-            await ctx.send('Invalid input. Please provide a valid number for downtime.')
+            await ctx.send('Invalid input. Please provide a valid number for down_time.')
     else:
         await ctx.send('Nice Try, but I saw that one coming.')
 
 #Shows the status of the global variables
 @bot.command(name='Prank-S')
 async def merivel_status(ctx):
-    message = f'Wait: {int(downtime - (time.time() - start_time))} seconds' if cool & (downtime - (time.time() - start_time) > 0) else 'Ready to go!'
+    message = f'Wait: {int(down_time - (time.time() - start_time))} seconds' if cool & (down_time - (time.time() - start_time) > 0) else 'Ready to go!'
     await ctx.send(message)
 # Run the bot
 if __name__ == "__main__":
