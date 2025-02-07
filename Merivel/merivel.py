@@ -30,12 +30,16 @@ global cool
 cool = False
 
 hold_event = threading.Event()
+die_event = threading.Event()
 
 global challenge_list
 challenge_list = ["trivia", "cypher", "riddle", "anagram", "pattern"]
 
 global challenge
 challenge = random.choice(challenge_list)
+
+global collab
+collab = "It's just me for now."
 
 # Initialize the bot
 bot = commands.Bot(
@@ -56,6 +60,10 @@ async def event_ready():
 # Event: Runs every time a message is sent in chat
 @bot.event()
 async def event_message(message):
+
+    if die_event:
+        await bot.close()
+        exit(0)
 
     # Prevent the bot from responding to its own messages
     if not message.author:
@@ -90,12 +98,17 @@ async def merivel_lurk(ctx):
 async def merivel_challenge(ctx):
     ctx.send(challenge)
 
+# Command: Prints out the collab list
+@bot.command(name='Collab')
+async def merivel_collab(ctx):
+    ctx.send(collab)
+
 # Secret Command: Plays a random sound from the sounds directory
 @bot.command(name='Prank')
 async def merivel_prank(ctx):
     global start_time
     global cool
-    if ((time.time() - start_time) < down_time) & cool:
+    if (((time.time() - start_time) < down_time) & cool) | (ctx.author.is_mod | ctx.author.is_mod):
         await ctx.send('Not so fast! You thought I was gonna let you spam this? Take a minute first!')
         return
     # Load and play the sound
@@ -119,6 +132,7 @@ async def merivel_commands(ctx):
         "!Hello - Merivel says hello to you",
         "!Lurk - Lets me know you're here even if you're just lurking",
         "!Challenge - Merivel gives you a little challenge to solve",
+        "!Collab - Get to know who I'm streaming with",
         "!Merivel - Gives you this list of commands",
     ]
     response = "Available commands: " + " | ".join(commands_list)
@@ -128,7 +142,7 @@ async def merivel_commands(ctx):
 # Admin Command: Shuts Merivel Down
 @bot.command(name='Quit_Merivel')
 async def merivel_quit(ctx):
-    if ctx.author.name == TWITCH_CHANNEL_NAME:
+    if ctx.author.is_mod | ctx.author.is_mod:
         ctx.send("Bye Everyone!")
         await bot.close()
         exit(0)
@@ -137,7 +151,7 @@ async def merivel_quit(ctx):
 @bot.command(name='Set_Downtime')
 async def merivel_downtime(ctx):
     global down_time
-    if ctx.author.name == TWITCH_CHANNEL_NAME:
+    if ctx.author.is_mod | ctx.author.is_mod:
         try:
             down_time = int(ctx.message.content.split(' ')[1])
             await ctx.send(f'New Cooldown {down_time} seconds.')
@@ -172,7 +186,9 @@ def input_thread():
             print("Available Commands: collab, reroll, downtime, quit")
             command = input("Enter a command: ")
             if command == "collab":
-                print("Collab command under construction")
+                global collab
+                collab = input("Enter: ")
+                print(collab)
             elif command == "reroll":
                 global challenge
                 challenge = random.choice(challenge_list)
