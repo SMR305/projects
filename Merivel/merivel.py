@@ -1,11 +1,14 @@
 import os
 from twitchio.ext import commands
+from dotenv import load_dotenv
 import pygame
 import random
 import time
 
 # Set the current directory to the folder the program is in
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+load_dotenv()
 
 # Replace these with your own credentials (I suggest making a .env and setting them in there)
 # TWITCH_BOT_TOKEN = 'your_oauth_token_here'
