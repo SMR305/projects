@@ -16,10 +16,16 @@ load_dotenv()
 # TWITCH_CHANNEL_NAME = 'target_TWITCH_CHANNEL_NAME'
 TWITCH_BOT_TOKEN = os.environ['TWITCH_BOT_TOKEN']
 TWITCH_CLIENT_ID = os.environ['TWITCH_CLIENT_ID']
+TWITCH_CLIENT_SECRET = os.environ['TWITCH_CLIENT_SECRET']
 TWITCH_CHANNEL_NAME = os.environ['TWITCH_CHANNEL_NAME']
+TWITCH_BOT_ID = os.environ['TWITCH_BOT_ID']
 
 # Initialize the mixer
-pygame.mixer.init()
+
+local_mode = False
+if input("Local or Remote (L or R): ") == "l":
+    local_mode = True
+    pygame.mixer.init()
 
 global start_time
 start_time = time.time()
@@ -34,6 +40,8 @@ cool = False
 bot = commands.Bot(
     token=TWITCH_BOT_TOKEN,
     client_id=TWITCH_CLIENT_ID,
+    client_secret=TWITCH_CLIENT_SECRET,
+    bot_id=TWITCH_BOT_ID,
     nick='merivel_bot',
     prefix='!',
     initial_channels=[TWITCH_CHANNEL_NAME]
@@ -87,12 +95,15 @@ async def merivel_prank(ctx):
     # Choose a random file from the list
     random_sound = random.choice(sound_files)
 
-    # Load and play the random sound
-    pygame.mixer.music.load(os.path.join('./sounds', random_sound))
-    pygame.mixer.music.play()
-    print("Played sound: " + random_sound)
-    start_time = time.time()
-    cool = True
+    if local_mode:
+        # Load and play the random sound
+        pygame.mixer.music.load(os.path.join('./sounds', random_sound))
+        pygame.mixer.music.play()
+        print("Played sound: " + random_sound)
+        start_time = time.time()
+        cool = True
+    else:
+        await ctx.send('Sorry, I\'m running remotely rn, and we\'re still working on getting sound alerts working for this.')
 
 #Command: Responds with the list of available commands
 @bot.command(name='Merivel')
@@ -103,7 +114,7 @@ async def merivel_commands(ctx):
         "!Merivel - Gives you this list of commands",
     ]
     response = "Available commands: " + " | ".join(commands_list)
-    
+
     await ctx.send(response)
 
 # Admin Command: Shuts Merivel Down
