@@ -18,9 +18,9 @@ load_dotenv()
 # TWITCH_CHANNEL_NAME = 'target_TWITCH_CHANNEL_NAME'
 TWITCH_BOT_TOKEN = os.environ['TWITCH_BOT_TOKEN']
 TWITCH_CLIENT_ID = os.environ['TWITCH_CLIENT_ID']
-TWITCH_CLIENT_SECRET = os.environ['TWITCH_CLIENT_SECRET']
+# TWITCH_CLIENT_SECRET = os.environ['TWITCH_CLIENT_SECRET']
 TWITCH_CHANNEL_NAME = os.environ['TWITCH_CHANNEL_NAME']
-TWITCH_BOT_ID = os.environ['TWITCH_BOT_ID']
+# TWITCH_BOT_ID = os.environ['TWITCH_BOT_ID']
 
 # Initialize the mixer
 
@@ -50,11 +50,12 @@ collab = "It's just me for now."
 bot = commands.Bot(
     token=TWITCH_BOT_TOKEN,
     client_id=TWITCH_CLIENT_ID,
-    client_secret=TWITCH_CLIENT_SECRET,
-    bot_id=TWITCH_BOT_ID,
+    # client_secret=TWITCH_CLIENT_SECRET,
+    # bot_id=TWITCH_BOT_ID,
     nick='merivel_bot',
     prefix='!',
-    initial_channels=[TWITCH_CHANNEL_NAME]
+    # initial_channels=[TWITCH_CHANNEL_NAME]
+    initial_channels=['lenagamesss12']
 )
 
 # Event: Runs when the bot is ready
