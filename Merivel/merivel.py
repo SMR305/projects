@@ -20,25 +20,21 @@ TWITCH_CHANNEL_NAME = os.environ['TWITCH_CHANNEL_NAME']
 # Initialize the mixer
 pygame.mixer.init()
 
-global start_time
+global start_time, down_time, cool, challenge_list, challenge, collab
+
 start_time = time.time()
 
-global down_time
 down_time = 90
 
-global cool
 cool = False
 
 hold_event = threading.Event()
 die_event = threading.Event()
 
-global challenge_list
-challenge_list = ["trivia", "cypher", "riddle", "anagram", "pattern"]
+challenge_list = ['trivia', 'cypher', 'riddle', 'anagram', 'pattern']
 
-global challenge
 challenge = random.choice(challenge_list)
 
-global collab
 collab = "It's just me for now."
 
 # Initialize the bot
@@ -96,12 +92,27 @@ async def merivel_lurk(ctx):
 # Command: Gives out a challenge for the chat to solve
 @bot.command(name='Challenge')
 async def merivel_challenge(ctx):
-    ctx.send(challenge)
+    await ctx.send(challenge)
 
 # Command: Prints out the collab list
 @bot.command(name='Collab')
 async def merivel_collab(ctx):
-    ctx.send(collab)
+    await ctx.send(collab)
+
+# Command: Updates the collab variable
+@bot.command(name="Update_c")
+async def merivel_update_c(ctx):
+    if ctx.author.is_mod or ctx.author.is_mod:
+        global collab
+        new_collab = "It's just me for now."
+        message_parts = ctx.message.content.split(' ')
+        if len(message_parts) == 2:
+            new_collab = message_parts[1]
+        elif len(message_parts) > 2:
+            new_collab = message_parts[1]
+            new_collab += ", "
+            new_collab += ", ".join(message_parts[2:])
+        collab = new_collab
 
 # Secret Command: Plays a random sound from the sounds directory
 @bot.command(name='Prank')
