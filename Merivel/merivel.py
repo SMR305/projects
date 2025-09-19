@@ -16,10 +16,11 @@ load_dotenv()
 # TWITCH_BOT_TOKEN = 'your_oauth_token_here'
 # TWITCH_CLIENT_ID = 'your_TWITCH_CLIENT_ID'
 # TWITCH_CHANNEL_NAME = 'target_TWITCH_CHANNEL_NAME'
+
 TWITCH_BOT_TOKEN = os.environ['TWITCH_BOT_TOKEN']
 TWITCH_CLIENT_ID = os.environ['TWITCH_CLIENT_ID']
-# TWITCH_CLIENT_SECRET = os.environ['TWITCH_CLIENT_SECRET']
 TWITCH_CHANNEL_NAME = os.environ['TWITCH_CHANNEL_NAME']
+# TWITCH_CLIENT_SECRET = os.environ['TWITCH_CLIENT_SECRET']
 # TWITCH_BOT_ID = os.environ['TWITCH_BOT_ID']
 
 # Initialize the mixer
@@ -53,9 +54,9 @@ bot = commands.Bot(
     # client_secret=TWITCH_CLIENT_SECRET,
     # bot_id=TWITCH_BOT_ID,
     nick='merivel_bot',
-    prefix='!',
-    # initial_channels=[TWITCH_CHANNEL_NAME]
-    initial_channels=['lenagamesss12']
+    prefix='>',
+    initial_channels=[TWITCH_CHANNEL_NAME]
+    # initial_channels=['lenagamesss12']
 )
 
 # Event: Runs when the bot is ready
@@ -90,6 +91,10 @@ async def event_message(message):
 # 
 # Declaration of the bot's chat commands
 # 
+
+@bot.command(name='Lena')
+async def merivel_lena(ctx):
+    await ctx.send(f'Lena is the best!')
 
 # Command: Responds with "Hello, {user}!" when "!hello" is typed in chat
 @bot.command(name='Hello')
@@ -155,11 +160,11 @@ async def merivel_prank(ctx):
 @bot.command(name='Merivel')
 async def merivel_commands(ctx):
     commands_list = [
-        "!Hello - Merivel says hello to you",
-        "!Lurk - Lets me know you're here even if you're just lurking",
-        "!Challenge - Merivel gives you a little challenge to solve",
-        "!Collab - Get to know who I'm streaming with",
-        "!Merivel - Gives you this list of commands",
+        ">Hello - Merivel says hello to you",
+        ">Lurk - Lets me know you're here even if you're just lurking",
+        ">Challenge - Merivel gives you a little challenge to solve",
+        ">Collab - Get to know who I'm streaming with",
+        ">Merivel - Gives you this list of commands",
     ]
     response = "Available commands: " + " | ".join(commands_list)
 
@@ -169,7 +174,7 @@ async def merivel_commands(ctx):
 @bot.command(name='Quit_Merivel')
 async def merivel_quit(ctx):
     if ctx.author.is_mod | ctx.author.is_mod:
-        ctx.send("Bye Everyone!")
+        await ctx.send("Bye Everyone!")
         await bot.close()
         exit(0)
 
